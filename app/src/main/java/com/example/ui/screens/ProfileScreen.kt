@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.ui.components.EditProfileDialog
+import com.example.ui.components.GlassPanel
 import com.example.ui.components.InfoDialog
 import com.example.ui.theme.BluePrimary
 import com.example.ui.theme.BluePrimaryLight
@@ -100,115 +101,106 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            // RETRO OPERATOR PROFILE CARD
-            Card(
+            // USER PROFILE CARD - FROSTED GLASS
+            GlassPanel(
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("profile_header_card"),
-                shape = RoundedCornerShape(0.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                shape = RoundedCornerShape(26.dp),
+                elevation = 6.dp
             ) {
-                    Row(
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(18.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    // Glass Avatar Squircle
+                    val initials = if (userProfile.name.isNotBlank()) userProfile.name.take(2).uppercase() else "OP"
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(14.dp)
+                            .size(62.dp)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
+                            .border(1.2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f), RoundedCornerShape(20.dp)),
+                        contentAlignment = Alignment.Center
                     ) {
-                        // Retro Square Avatar Stamp
-                        val initials = if (userProfile.name.isNotBlank()) userProfile.name.take(2).uppercase() else "OP"
-                        Box(
-                            modifier = Modifier
-                                .size(58.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.primaryContainer)
-                                .border(1.5.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
+                        Text(
+                            text = initials,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = if (userProfile.name.isNotBlank()) userProfile.name else "Business Owner",
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.testTag("profile_user_name")
+                        )
+                        Text(
+                            text = userProfile.title,
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        if (userProfile.email.isNotBlank()) {
                             Text(
-                                text = initials,
-                                fontSize = 20.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                fontWeight = FontWeight.Bold,
+                                text = userProfile.email,
+                                fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
+                    }
 
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = if (userProfile.name.isNotBlank()) userProfile.name else "System Operator",
-                                fontSize = 18.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.testTag("profile_user_name")
-                            )
-                            Text(
-                                text = "[ROLE] ${userProfile.title}",
-                                fontSize = 12.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            if (userProfile.email.isNotBlank()) {
-                                Text(
-                                    text = userProfile.email,
-                                    fontSize = 11.sp,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        }
-
-                        // Retro Edit Button
-                        Box(
-                            modifier = Modifier
-                                .size(38.dp)
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .border(1.2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(6.dp))
-                                .clickable { showEditProfileDialog = true }
-                                .testTag("edit_profile_btn"),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit Profile",
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
+                    // Glass Edit Button
+                    Box(
+                        modifier = Modifier
+                            .size(42.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
+                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(14.dp))
+                            .clickable { showEditProfileDialog = true }
+                            .testTag("edit_profile_btn"),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit Profile",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
+            }
         }
 
-        // RETRO SETTINGS LIST CARD
+        // SETTINGS LIST CARD - FROSTED GLASS
         item {
-            Card(
+            GlassPanel(
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("settings_list_card"),
-                shape = RoundedCornerShape(0.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                shape = RoundedCornerShape(26.dp),
+                elevation = 6.dp
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    // Retro Section Header
+                    // Glass Section Header
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline))
-                            .padding(horizontal = 14.dp, vertical = 6.dp)
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                            .padding(horizontal = 18.dp, vertical = 10.dp)
                     ) {
                         Text(
-                            text = "// SYSTEM CONFIGURATION //",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 10.sp,
+                            text = "PREFERENCES & CONFIGURATION",
+                            fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            letterSpacing = 0.5.sp
                         )
                     }
 
@@ -217,7 +209,7 @@ fun ProfileScreen(
                         SettingRow(
                             icon = Icons.Default.Brightness4,
                             title = "Dark Mode",
-                            subtitle = if (userProfile.isDarkMode) "CRT Console Dark" else "Vintage Paper Light",
+                            subtitle = if (userProfile.isDarkMode) "Midnight Cosmic Glass" else "Frosted Pearl Light",
                             trailing = {
                                 Switch(
                                     checked = userProfile.isDarkMode,
@@ -312,16 +304,15 @@ fun ProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "[ MYDUE • RETRO LEDGER v2.0 ]",
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                    text = "MYDUE • GLASS MORPHISM EDITION",
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    letterSpacing = 0.5.sp
                 )
                 Text(
-                    text = "// 100% OFFLINE ENCRYPTED LOCAL STORAGE //",
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontSize = 10.sp,
+                    text = "Frosted Encrypted Ledger • Offline & Private",
+                    fontSize = 11.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -593,9 +584,9 @@ fun SettingRow(
             Box(
                 modifier = Modifier
                     .size(38.dp)
-                    .clip(RoundedCornerShape(6.dp))
+                    .clip(RoundedCornerShape(12.dp))
                     .background(iconTint.copy(alpha = 0.12f))
-                    .border(BorderStroke(1.2.dp, iconTint.copy(alpha = 0.5f)), RoundedCornerShape(6.dp)),
+                    .border(BorderStroke(1.2.dp, iconTint.copy(alpha = 0.5f)), RoundedCornerShape(12.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -609,15 +600,13 @@ fun SettingRow(
             Column {
                 Text(
                     text = title,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.5.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = subtitle,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontSize = 11.sp,
+                    fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }

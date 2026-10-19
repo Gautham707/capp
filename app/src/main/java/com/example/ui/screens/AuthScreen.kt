@@ -172,41 +172,39 @@ fun AuthScreen(
                     .testTag("auth_brand_logo")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "MYDUE // LEDGER",
-                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                fontSize = 20.sp,
+                text = "MyDue Ledger",
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground,
-                letterSpacing = 0.5.sp
+                letterSpacing = (-0.5).sp
             )
 
             Text(
-                text = "[CUSTOMER CREDIT TERMINAL]",
-                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                fontSize = 11.sp,
+                text = "Customer Credit & Frosted Ledger",
+                fontSize = 13.sp,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // Retro Auth Card
+            // Frosted Glass Auth Card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("auth_card"),
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(26.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                border = com.example.ui.components.glassBorderStroke(1.2.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp),
+                        .padding(22.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // Header Mode Selector (Pill Tabs for Login vs Register)
@@ -214,29 +212,28 @@ fun AuthScreen(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
-                                .padding(3.dp),
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
+                                .padding(4.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .clip(RoundedCornerShape(6.dp))
+                                    .clip(RoundedCornerShape(16.dp))
                                     .background(if (mode == AuthMode.LOGIN) MaterialTheme.colorScheme.primary else Color.Transparent)
                                     .clickable {
                                         mode = AuthMode.LOGIN
                                         clearFeedback()
                                     }
-                                    .padding(vertical = 8.dp)
+                                    .padding(vertical = 10.dp)
                                     .testTag("tab_login"),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "[ SIGN IN ]",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    text = "Sign In",
+                                    fontSize = 13.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = if (mode == AuthMode.LOGIN) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -245,27 +242,26 @@ fun AuthScreen(
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .clip(RoundedCornerShape(6.dp))
+                                    .clip(RoundedCornerShape(16.dp))
                                     .background(if (mode == AuthMode.REGISTER) MaterialTheme.colorScheme.primary else Color.Transparent)
                                     .clickable {
                                         mode = AuthMode.REGISTER
                                         clearFeedback()
                                     }
-                                    .padding(vertical = 8.dp)
+                                    .padding(vertical = 10.dp)
                                     .testTag("tab_register"),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "[ SIGN UP ]",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    text = "Register",
+                                    fontSize = 13.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = if (mode == AuthMode.REGISTER) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(18.dp))
                     }
 
                     // Success Banner
@@ -583,29 +579,28 @@ fun LoginForm(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "// ACCESS TERMINAL //",
-            fontSize = 16.sp,
-            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+            text = "Welcome Back",
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
-            text = "Enter operator credentials to access ledger",
-            fontSize = 11.5.sp,
+            text = "Enter your credentials to access your credit ledger",
+            fontSize = 12.5.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(18.dp))
 
         OutlinedTextField(
             value = identifier,
             onValueChange = onIdentifierChange,
-            label = { Text("Operator Email or ID *", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+            label = { Text("Email or Username *", fontSize = 12.5.sp) },
             leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
             singleLine = true,
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(14.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
                 focusedBorderColor = MaterialTheme.colorScheme.primary
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
@@ -615,12 +610,12 @@ fun LoginForm(
                 .testTag("login_username_input")
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedTextField(
             value = password,
             onValueChange = onPasswordChange,
-            label = { Text("Passcode *", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+            label = { Text("Passcode *", fontSize = 12.5.sp) },
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
             trailingIcon = {
                 IconButton(onClick = onToggleShowPassword) {
@@ -630,7 +625,7 @@ fun LoginForm(
                     )
                 }
             },
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(14.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                 focusedBorderColor = MaterialTheme.colorScheme.primary
@@ -660,54 +655,52 @@ fun LoginForm(
                     onCheckedChange = onRememberMeChange,
                     colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary)
                 )
-                Text("Remember session", fontSize = 11.5.sp, fontFamily = com.example.ui.theme.SpaceMonoFontFamily)
+                Text("Remember session", fontSize = 12.sp)
             }
 
             TextButton(
                 onClick = onForgotPassword,
                 modifier = Modifier.testTag("forgot_password_btn")
             ) {
-                Text("[Forgot Passcode?]", fontSize = 11.sp, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                Text("Forgot Passcode?", fontSize = 12.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
         Button(
             onClick = onLoginSubmit,
             enabled = !isLoading,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(50.dp)
                 .testTag("login_submit_btn"),
-            shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
         ) {
             if (isLoading) {
                 CircularProgressIndicator(color = Color.White, modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
             } else {
                 Text(
-                    text = "ENTER LEDGER ▶",
-                    fontSize = 13.5.sp,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                    text = "Sign In",
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Need operator account? ", fontSize = 12.sp)
+            Text("Don't have an account? ", fontSize = 12.5.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(
-                text = "[Register New]",
-                fontSize = 12.sp,
-                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                text = "Register",
+                fontSize = 12.5.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier

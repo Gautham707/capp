@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -86,12 +87,12 @@ fun AddDueDialog(
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
-            shape = RoundedCornerShape(0.dp),
+            shape = RoundedCornerShape(26.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             ),
-            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            border = com.example.ui.components.glassBorderStroke(1.2.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 12.dp)
@@ -104,7 +105,7 @@ fun AddDueDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp),
+                        .padding(22.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     // Header: Title and Close (X) icon
@@ -115,16 +116,14 @@ fun AddDueDialog(
                     ) {
                         Column {
                             Text(
-                                text = "ADD DUE / CREDIT",
-                                fontSize = 17.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                text = "Add Due / Credit",
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
                                 text = "Record credit purchase on ledger",
-                                fontSize = 11.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -145,10 +144,9 @@ fun AddDueDialog(
                     // Field 1: Customer Name *
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = "[CUSTOMER NAME] *",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
+                            text = "Customer Name *",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
@@ -166,13 +164,12 @@ fun AddDueDialog(
                                 placeholder = {
                                     Text(
                                         "e.g. Acme Supplies",
-                                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                        fontSize = 12.sp,
+                                        fontSize = 13.sp,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                     )
                                 },
                                 singleLine = true,
-                                shape = RoundedCornerShape(8.dp),
+                                shape = RoundedCornerShape(16.dp),
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = MaterialTheme.colorScheme.primary,
                                     unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -191,12 +188,11 @@ fun AddDueDialog(
                                     DropdownMenuItem(
                                         text = {
                                             Column {
-                                                Text(item.customer.name, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                                                Text(item.customer.name, fontWeight = FontWeight.Bold)
                                                 if (item.customer.phone.isNotBlank()) {
                                                     Text(
                                                         item.customer.phone,
-                                                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                                        fontSize = 11.sp,
+                                                        fontSize = 11.5.sp,
                                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                                     )
                                                 }
@@ -216,10 +212,9 @@ fun AddDueDialog(
                     // Field 2: Phone Number (Optional)
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = "[PHONE NUMBER]",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
+                            text = "Phone Number (Optional)",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
@@ -229,14 +224,13 @@ fun AddDueDialog(
                             placeholder = {
                                 Text(
                                     "e.g. +91 98765 43210",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    fontSize = 13.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                             singleLine = true,
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -250,10 +244,9 @@ fun AddDueDialog(
                     // Field 3: Credit Amount (₹) *
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = "[CREDIT AMOUNT (₹)] *",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
+                            text = "Credit Amount (₹) *",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
@@ -266,14 +259,13 @@ fun AddDueDialog(
                             placeholder = {
                                 Text(
                                     "e.g. 500",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    fontSize = 13.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -287,10 +279,9 @@ fun AddDueDialog(
                     // Field 4: Bill Description / Note
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = "[DESCRIPTION / NOTE]",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
+                            text = "Description / Note",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
@@ -300,13 +291,12 @@ fun AddDueDialog(
                             placeholder = {
                                 Text(
                                     "e.g. Weekly supplies, invoice #42...",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    fontSize = 13.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             },
                             singleLine = true,
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -321,9 +311,8 @@ fun AddDueDialog(
                         Text(
                             text = "⚠ $errorText",
                             color = RoseDue,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
                         )
                     }
 
@@ -337,8 +326,8 @@ fun AddDueDialog(
                     ) {
                         Button(
                             onClick = onDismiss,
-                            shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+                            shape = RoundedCornerShape(16.dp),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
                                 contentColor = MaterialTheme.colorScheme.onSurface
@@ -348,7 +337,7 @@ fun AddDueDialog(
                                 .height(48.dp)
                                 .testTag("cancel_due_button")
                         ) {
-                            Text("CANCEL", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            Text("Cancel", fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
                         }
 
                         Button(
@@ -362,18 +351,18 @@ fun AddDueDialog(
                                     onSave(name, phone, amount, note)
                                 }
                             },
-                            shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+                            shape = RoundedCornerShape(16.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.primary,
                                 contentColor = Color.White
                             ),
+                            elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp),
                             modifier = Modifier
                                 .weight(1.3f)
                                 .height(48.dp)
                                 .testTag("save_due_button")
                         ) {
-                            Text("SAVE CREDIT", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            Text("Save Credit", fontSize = 13.5.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -410,12 +399,12 @@ fun RecordPaymentDialog(
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
-            shape = RoundedCornerShape(0.dp),
+            shape = RoundedCornerShape(26.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             ),
-            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            border = com.example.ui.components.glassBorderStroke(1.2.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 12.dp)
@@ -428,7 +417,7 @@ fun RecordPaymentDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp),
+                        .padding(22.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     // Header: Title and Close (X) icon
@@ -439,21 +428,19 @@ fun RecordPaymentDialog(
                     ) {
                         Column {
                             Text(
-                                text = "RECORD PAYMENT",
-                                fontSize = 17.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                text = "Record Payment",
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             val subtitleText = if (selectedName.isNotBlank()) {
-                                "$selectedName • DUE: ₹${effectiveBalance.toInt()}"
+                                "$selectedName • Due: ₹${effectiveBalance.toInt()}"
                             } else {
                                 "Select customer & enter received amount"
                             }
                             Text(
                                 text = subtitleText,
-                                fontSize = 11.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -475,10 +462,9 @@ fun RecordPaymentDialog(
                     if (customerName.isBlank()) {
                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                             Text(
-                                text = "[CUSTOMER] *",
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                fontSize = 11.5.sp,
-                                fontWeight = FontWeight.Bold,
+                                text = "Customer *",
+                                fontSize = 12.5.sp,
+                                fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
 
@@ -497,13 +483,12 @@ fun RecordPaymentDialog(
                                     placeholder = {
                                         Text(
                                             "Select customer...",
-                                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                            fontSize = 12.sp,
+                                            fontSize = 13.sp,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                         )
                                     },
                                     singleLine = true,
-                                    shape = RoundedCornerShape(8.dp),
+                                    shape = RoundedCornerShape(16.dp),
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = MaterialTheme.colorScheme.primary,
                                         unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -527,20 +512,18 @@ fun RecordPaymentDialog(
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
                                                     Column {
-                                                        Text(item.customer.name, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                                                        Text(item.customer.name, fontWeight = FontWeight.Bold)
                                                         if (item.customer.phone.isNotBlank()) {
                                                             Text(
                                                                 item.customer.phone,
-                                                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                                                fontSize = 11.sp,
+                                                                fontSize = 11.5.sp,
                                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                                                             )
                                                         }
                                                     }
                                                     Text(
                                                         text = "₹${item.balance.toInt()} due",
-                                                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                                        fontSize = 12.sp,
+                                                        fontSize = 12.5.sp,
                                                         fontWeight = FontWeight.Bold,
                                                         color = if (item.balance > 0) RoseDue else TealSuccess
                                                     )
@@ -561,10 +544,9 @@ fun RecordPaymentDialog(
                     // Field 1: Amount Received (₹) *
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = "[AMOUNT RECEIVED (₹)] *",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
+                            text = "Amount Received (₹) *",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
@@ -577,14 +559,13 @@ fun RecordPaymentDialog(
                             placeholder = {
                                 Text(
                                     "e.g. 250",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    fontSize = 13.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -598,10 +579,9 @@ fun RecordPaymentDialog(
                     // Field 2: Payment Mode / Reference
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = "[PAYMENT MODE / REFERENCE]",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
+                            text = "Payment Mode / Reference",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
@@ -611,13 +591,12 @@ fun RecordPaymentDialog(
                             placeholder = {
                                 Text(
                                     "Cash, UPI, GPay, Bank...",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 12.sp,
+                                    fontSize = 13.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             },
                             singleLine = true,
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outline
@@ -632,9 +611,8 @@ fun RecordPaymentDialog(
                         Text(
                             text = "⚠ $errorText",
                             color = RoseDue,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
                         )
                     }
 
@@ -648,8 +626,8 @@ fun RecordPaymentDialog(
                     ) {
                         Button(
                             onClick = onDismiss,
-                            shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+                            shape = RoundedCornerShape(16.dp),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
                                 contentColor = MaterialTheme.colorScheme.onSurface
@@ -659,7 +637,7 @@ fun RecordPaymentDialog(
                                 .height(48.dp)
                                 .testTag("cancel_payment_button")
                         ) {
-                            Text("CANCEL", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            Text("Cancel", fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
                         }
 
                         Button(
@@ -677,18 +655,18 @@ fun RecordPaymentDialog(
                                     }
                                 }
                             },
-                            shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+                            shape = RoundedCornerShape(16.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = TealSuccess,
                                 contentColor = Color.White
                             ),
+                            elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp),
                             modifier = Modifier
                                 .weight(1.3f)
                                 .height(48.dp)
                                 .testTag("save_payment_button")
                         ) {
-                            Text("SETTLE PAYMENT", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            Text("Settle Payment", fontSize = 13.5.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -709,13 +687,15 @@ fun EditCustomerDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        shape = RoundedCornerShape(24.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
         title = {
-            Text(text = "EDIT CUSTOMER", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(text = "Edit Customer", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedTextField(
                     value = name,
@@ -723,23 +703,23 @@ fun EditCustomerDialog(
                         name = it
                         errorText = null
                     },
-                    label = { Text("Customer Name *", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Customer Name *", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = phone,
                     onValueChange = { phone = it },
-                    label = { Text("Phone Number", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Phone Number", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errorText != null) {
-                    Text(text = "⚠ ${errorText ?: ""}", color = RoseDue, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 11.5.sp)
+                    Text(text = "⚠ ${errorText ?: ""}", color = RoseDue, fontSize = 12.sp)
                 }
             }
         },
@@ -752,20 +732,19 @@ fun EditCustomerDialog(
                         onSave(customer.copy(name = name.trim(), phone = phone.trim()))
                     }
                 },
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline),
+                shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("SAVE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                Text("Save", fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline)
+                shape = RoundedCornerShape(16.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
             ) {
-                Text("CANCEL", fontFamily = com.example.ui.theme.SpaceMonoFontFamily)
+                Text("Cancel")
             }
         }
     )
@@ -784,13 +763,15 @@ fun EditTransactionDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        shape = RoundedCornerShape(24.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
         title = {
-            Text(text = "EDIT TRANSACTION", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(text = "Edit Transaction", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -801,14 +782,14 @@ fun EditTransactionDialog(
                             selected = type == "credit",
                             onClick = { type = "credit" }
                         )
-                        Text("Due Added", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp)
+                        Text("Due Added", fontSize = 13.sp)
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
                             selected = type == "payment",
                             onClick = { type = "payment" }
                         )
-                        Text("Payment", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp)
+                        Text("Payment", fontSize = 13.sp)
                     }
                 }
 
@@ -818,24 +799,24 @@ fun EditTransactionDialog(
                         amountText = it
                         errorText = null
                     },
-                    label = { Text("Amount (₹) *", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Amount (₹) *", fontSize = 12.5.sp) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = note,
                     onValueChange = { note = it },
-                    label = { Text("Description / Note", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Description / Note", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errorText != null) {
-                    Text(text = "⚠ ${errorText ?: ""}", color = RoseDue, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 11.5.sp)
+                    Text(text = "⚠ ${errorText ?: ""}", color = RoseDue, fontSize = 12.sp)
                 }
             }
         },
@@ -849,20 +830,19 @@ fun EditTransactionDialog(
                         onSave(transaction.copy(type = type, amount = amount, note = note.trim()))
                     }
                 },
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline),
+                shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("SAVE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                Text("Save", fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline)
+                shape = RoundedCornerShape(16.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
             ) {
-                Text("CANCEL", fontFamily = com.example.ui.theme.SpaceMonoFontFamily)
+                Text("Cancel")
             }
         }
     )
@@ -877,25 +857,26 @@ fun ConfirmDeleteDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = title.uppercase(), fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
-        text = { Text(text = message, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.5.sp) },
+        shape = RoundedCornerShape(24.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        title = { Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp) },
+        text = { Text(text = message, fontSize = 13.5.sp) },
         confirmButton = {
             Button(
                 onClick = onConfirm,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline),
+                shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = RoseDue)
             ) {
-                Text("DELETE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                Text("Delete", fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline)
+                shape = RoundedCornerShape(16.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
             ) {
-                Text("CANCEL", fontFamily = com.example.ui.theme.SpaceMonoFontFamily)
+                Text("Cancel")
             }
         }
     )
@@ -916,15 +897,18 @@ fun SortFilterDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("// SORT ORDER //", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+        shape = RoundedCornerShape(24.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        title = { Text("Sort Customers", fontWeight = FontWeight.Bold, fontSize = 18.sp) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 options.forEach { (key, label) ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
                             .clickable { onSelectSort(key) }
-                            .padding(vertical = 6.dp),
+                            .padding(vertical = 8.dp, horizontal = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
@@ -932,14 +916,17 @@ fun SortFilterDialog(
                             onClick = { onSelectSort(key) }
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(label, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 13.sp)
+                        Text(label, fontSize = 14.sp)
                     }
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("CLOSE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+            TextButton(
+                onClick = onDismiss,
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text("Close", fontWeight = FontWeight.Bold)
             }
         }
     )
@@ -961,42 +948,44 @@ fun EditProfileDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("EDIT OPERATOR PROFILE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+        shape = RoundedCornerShape(24.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        title = { Text("Edit Business Profile", fontWeight = FontWeight.Bold, fontSize = 18.sp) },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedTextField(
                     value = newName,
                     onValueChange = { newName = it },
-                    label = { Text("Full Name *", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Full Name *", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = newTitle,
                     onValueChange = { newTitle = it },
-                    label = { Text("Role / Title", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Role / Title", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = newEmail,
                     onValueChange = { newEmail = it },
-                    label = { Text("Email", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Email", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = newPhone,
                     onValueChange = { newPhone = it },
-                    label = { Text("Phone", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp) },
+                    label = { Text("Phone", fontSize = 12.5.sp) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -1004,20 +993,19 @@ fun EditProfileDialog(
         confirmButton = {
             Button(
                 onClick = { onSave(newName, newTitle, newEmail, newPhone) },
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline),
+                shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("SAVE PROFILE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                Text("Save Profile", fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline)
+                shape = RoundedCornerShape(16.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
             ) {
-                Text("CANCEL", fontFamily = com.example.ui.theme.SpaceMonoFontFamily)
+                Text("Cancel")
             }
         }
     )
@@ -1031,16 +1019,17 @@ fun InfoDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = title.uppercase(), fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
-        text = { Text(text = content, fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontSize = 12.sp, lineHeight = 18.sp) },
+        shape = RoundedCornerShape(24.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        title = { Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp) },
+        text = { Text(text = content, fontSize = 13.5.sp, lineHeight = 20.sp) },
         confirmButton = {
             Button(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.outline),
+                shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("ACKNOWLEDGE", fontFamily = com.example.ui.theme.SpaceMonoFontFamily, fontWeight = FontWeight.Bold)
+                Text("Acknowledge", fontWeight = FontWeight.Bold)
             }
         }
     )

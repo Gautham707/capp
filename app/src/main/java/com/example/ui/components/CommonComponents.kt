@@ -77,13 +77,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.CustomerWithSummary
-import com.example.ui.theme.BlueAccent
-import com.example.ui.theme.BluePrimary
-import com.example.ui.theme.BluePrimaryLight
-import com.example.ui.theme.RoseDue
-import com.example.ui.theme.RoseDueLight
-import com.example.ui.theme.TealSuccess
-import com.example.ui.theme.TealSuccessLight
+import com.example.ui.theme.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -271,42 +265,57 @@ fun HeroOutstandingCard(
     val borderCol = MaterialTheme.colorScheme.outline
     val accentColor = MaterialTheme.colorScheme.primary
 
-    Card(
+    GlassPanel(
         modifier = modifier
             .fillMaxWidth()
             .testTag("hero_credit_card"),
-        shape = RoundedCornerShape(0.dp),
-        colors = CardDefaults.cardColors(containerColor = cardBg),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        border = BorderStroke(1.5.dp, borderCol)
+        shape = RoundedCornerShape(26.dp),
+        elevation = 6.dp
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 12.dp)
+                .padding(horizontal = 18.dp, vertical = 16.dp)
         ) {
-            // RETRO SYSTEM HEADER STRIP
+            // Glass Header Strip
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 6.dp),
+                    .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "// RETRO LEDGER // SYS-ACTIVE",
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontSize = 9.5.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = textSecondary,
-                    letterSpacing = 0.5.sp
-                )
-                Text(
-                    text = "[#REC-884]",
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontSize = 9.sp,
-                    color = textSecondary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(7.dp)
+                            .clip(CircleShape)
+                            .background(GlassEmerald)
+                    )
+                    Text(
+                        text = "FROSTED LEDGER • LIVE",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = textSecondary,
+                        letterSpacing = 0.5.sp
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                ) {
+                    Text(
+                        text = "SYNCED",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             // TOP HEADER ROW - Phone Sized
@@ -319,15 +328,13 @@ fun HeroOutstandingCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    // Retro icon container - Phone sized 32dp
+                    // Glass icon container with specular glow
                     Box(
                         modifier = Modifier
-                            .size(32.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(MaterialTheme.colorScheme.primaryContainer)
-                            .then(
-                                Modifier.border(1.dp, borderCol, RoundedCornerShape(6.dp))
-                            ),
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(accentColor.copy(alpha = 0.15f))
+                            .border(1.dp, accentColor.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         TrendChartIcon(modifier = Modifier.size(18.dp), color = accentColor)
@@ -336,44 +343,42 @@ fun HeroOutstandingCard(
                     Column {
                         Text(
                             text = title,
-                            fontSize = 14.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 14.5.sp,
                             fontWeight = FontWeight.Bold,
                             color = textPrimary
                         )
                         Text(
                             text = if (isWeekly) "7-day cumulative dues trend" else "Monthly customer dues ledger",
-                            fontSize = 11.sp,
+                            fontSize = 11.5.sp,
                             color = textSecondary
                         )
                     }
                 }
 
-                // Retro Toggle Pill (Weekly / Monthly) with border
+                // Frosted Glass Toggle Pill (Weekly / Monthly)
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(6.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+                        .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.30f), RoundedCornerShape(16.dp))
                         .clickable { isWeekly = !isWeekly }
-                        .then(Modifier.border(1.dp, borderCol, RoundedCornerShape(6.dp)))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
                         .testTag("live_trend_badge"),
                     contentAlignment = Alignment.Center
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(5.dp)
+                                .size(6.dp)
                                 .clip(CircleShape)
                                 .background(accentColor)
                         )
                         Text(
-                            text = if (isWeekly) "[7-DAY]" else "[MONTH]",
-                            fontSize = 10.5.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = if (isWeekly) "7-Day" else "Monthly",
+                            fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             color = accentColor
                         )
@@ -403,64 +408,57 @@ fun HeroOutstandingCard(
                 Column {
                     Text(
                         text = formatCurrency(currentSelectedAmount),
-                        fontSize = 24.sp,
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                        fontSize = 26.sp,
                         fontWeight = FontWeight.Bold,
                         color = textPrimary,
                         letterSpacing = (-0.5).sp,
                         modifier = Modifier.testTag("total_amount_text")
                     )
 
-                    Spacer(modifier = Modifier.height(2.dp))
+                    Spacer(modifier = Modifier.height(3.dp))
 
                     // TREND BADGE ROW
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        // Retro Percentage Pill badge
+                        // Frosted Percentage Pill badge
                         Box(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(4.dp))
+                                .clip(RoundedCornerShape(8.dp))
                                 .background(
-                                    if (isPositive) {
-                                        if (isDark) Color(0xFF1E3A8A).copy(alpha = 0.6f) else Color(0xFFE0EDFF)
-                                    } else {
-                                        if (isDark) Color(0xFF064E3B).copy(alpha = 0.6f) else Color(0xFFE8FAF4)
-                                    }
+                                    if (isPositive) accentColor.copy(alpha = 0.15f)
+                                    else Color(0xFF10B981).copy(alpha = 0.15f)
                                 )
-                                .then(
-                                    Modifier.border(
-                                        0.8.dp,
-                                        if (isPositive) accentColor else Color(0xFF059669),
-                                        RoundedCornerShape(4.dp)
-                                    )
+                                .border(
+                                    1.dp,
+                                    if (isPositive) accentColor.copy(alpha = 0.35f) else Color(0xFF10B981).copy(alpha = 0.35f),
+                                    RoundedCornerShape(8.dp)
                                 )
-                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                                .padding(horizontal = 7.dp, vertical = 2.5.dp)
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                                horizontalArrangement = Arrangement.spacedBy(3.dp)
                             ) {
                                 Text(
                                     text = arrowSymbol,
-                                    fontSize = 8.sp,
+                                    fontSize = 8.5.sp,
                                     color = if (isPositive) accentColor else Color(0xFF059669)
                                 )
                                 Text(
                                     text = percentText,
-                                    fontSize = 10.sp,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                    fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (isPositive) accentColor else Color(0xFF059669)
+                                    color = if (isPositive) accentColor else Color(0xFF059669),
+                                    modifier = Modifier.testTag("trend_percentage_text")
                                 )
                             }
                         }
 
                         Text(
                             text = if (isLatestSelected) periodComparisonText else "${currentSelectedPoint?.fullDate ?: ""} (tap reset)",
-                            fontSize = 11.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 11.5.sp,
                             color = textSecondary,
                             fontWeight = FontWeight.Medium
                         )
@@ -632,25 +630,24 @@ fun HeroOutstandingCard(
                                     placeable.placeRelative(posX.toInt(), posY.toInt())
                                 }
                             }
-                            .clip(TooltipShape(arrowWidth = 7.dp, arrowHeight = 3.5.dp, cornerRadius = 4.dp))
+                            .clip(TooltipShape(arrowWidth = 7.dp, arrowHeight = 3.5.dp, cornerRadius = 6.dp))
                             .background(accentColor)
-                            .padding(horizontal = 6.dp, vertical = 2.5.dp)
+                            .padding(horizontal = 8.dp, vertical = 3.dp)
                             .padding(bottom = 2.dp)
                     ) {
                         Text(
                             text = tooltipAmountText,
                             color = Color.White,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
                             fontWeight = FontWeight.Bold
                         )
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(3.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-            // X-AXIS DAY AND DATE LABELS - Phone Sized Retro Monospace
+            // X-AXIS DAY AND DATE LABELS
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -660,22 +657,20 @@ fun HeroOutstandingCard(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .clip(RoundedCornerShape(4.dp))
+                            .clip(RoundedCornerShape(8.dp))
                             .clickable { selectedIndex = index }
                             .padding(horizontal = 4.dp, vertical = 2.dp)
                     ) {
                         Text(
                             text = item.dayLabel,
-                            fontSize = 10.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 10.5.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                             color = if (isSelected) accentColor else textSecondary
                         )
                         Spacer(modifier = Modifier.height(1.dp))
                         Text(
                             text = item.dateLabel,
-                            fontSize = 9.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 9.5.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                             color = if (isSelected) accentColor else textSecondary.copy(alpha = 0.8f)
                         )
@@ -701,18 +696,16 @@ fun DualStatCards(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Pending Dues Card - Retro Ledger Style
-        Card(
+        // Pending Dues Card - Frosted Glass Style
+        GlassCard(
             modifier = Modifier
                 .weight(1f)
-                .clickable { onPendingClick() }
                 .testTag("stat_card_pending"),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(containerColor = surfaceColor),
-            border = BorderStroke(1.5.dp, borderColor),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            onClick = { onPendingClick() },
+            shape = RoundedCornerShape(22.dp),
+            elevation = 4.dp
         ) {
-            Column(modifier = Modifier.padding(14.dp)) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -720,36 +713,41 @@ fun DualStatCards(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(34.dp)
-                            .clip(RoundedCornerShape(6.dp))
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(12.dp))
                             .background(RoseDue.copy(alpha = 0.15f))
-                            .border(1.dp, RoseDue, RoundedCornerShape(6.dp)),
+                            .border(1.dp, RoseDue.copy(alpha = 0.45f), RoundedCornerShape(12.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Schedule,
                             contentDescription = "Pending Dues",
                             tint = RoseDue,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(19.dp)
                         )
                     }
 
-                    Text(
-                        text = "[PENDING]",
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = RoseDue
-                    )
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(RoseDue.copy(alpha = 0.12f))
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = "PENDING",
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = RoseDue
+                        )
+                    }
                 }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
                     text = "Pending Dues",
                     fontSize = 12.sp,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(2.dp))
@@ -760,7 +758,6 @@ fun DualStatCards(
                     Text(
                         text = "$pendingCount",
                         fontSize = 24.sp,
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.testTag("home_pending_count")
@@ -775,18 +772,16 @@ fun DualStatCards(
             }
         }
 
-        // Settled Card - Retro Ledger Style
-        Card(
+        // Settled Card - Frosted Glass Style
+        GlassCard(
             modifier = Modifier
                 .weight(1f)
-                .clickable { onSettledClick() }
                 .testTag("stat_card_settled"),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(containerColor = surfaceColor),
-            border = BorderStroke(1.5.dp, borderColor),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            onClick = { onSettledClick() },
+            shape = RoundedCornerShape(22.dp),
+            elevation = 4.dp
         ) {
-            Column(modifier = Modifier.padding(14.dp)) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -794,36 +789,41 @@ fun DualStatCards(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(34.dp)
-                            .clip(RoundedCornerShape(6.dp))
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(12.dp))
                             .background(TealSuccess.copy(alpha = 0.15f))
-                            .border(1.dp, TealSuccess, RoundedCornerShape(6.dp)),
+                            .border(1.dp, TealSuccess.copy(alpha = 0.45f), RoundedCornerShape(12.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = "Settled",
                             tint = TealSuccess,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(19.dp)
                         )
                     }
 
-                    Text(
-                        text = "[SETTLED]",
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = TealSuccess
-                    )
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(TealSuccess.copy(alpha = 0.12f))
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = "SETTLED",
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = TealSuccess
+                        )
+                    }
                 }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
                     text = "Settled",
                     fontSize = 12.sp,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(2.dp))
@@ -834,7 +834,6 @@ fun DualStatCards(
                     Text(
                         text = "$settledCount",
                         fontSize = 24.sp,
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.testTag("home_settled_count")
@@ -866,22 +865,20 @@ fun DueActionCards(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Add Due Card (Customer Credit - Retro Tactile Button)
-        Card(
+        // Add Due Card (Customer Credit - Frosted Glass Button)
+        GlassCard(
             modifier = Modifier
                 .weight(1f)
-                .height(82.dp)
-                .clickable { onAddDueClick() }
+                .height(86.dp)
                 .testTag(addDueTestTag),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(containerColor = surfaceColor),
-            border = BorderStroke(1.5.dp, borderColor),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            onClick = { onAddDueClick() },
+            shape = RoundedCornerShape(20.dp),
+            elevation = 4.dp
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 12.dp),
+                    .padding(horizontal = 14.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -892,34 +889,33 @@ fun DueActionCards(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(38.dp)
-                            .clip(RoundedCornerShape(6.dp))
+                            .size(42.dp)
+                            .clip(RoundedCornerShape(14.dp))
                             .background(RoseDue)
-                            .border(1.dp, borderColor, RoundedCornerShape(6.dp)),
+                            .border(1.dp, Color.White.copy(alpha = 0.35f), RoundedCornerShape(14.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add Due",
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
 
                     Column(verticalArrangement = Arrangement.Center) {
                         Text(
-                            text = "+ ADD DUE",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = "Add Due",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp,
-                            lineHeight = 16.sp,
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Customer credit",
-                            fontSize = 11.sp,
+                            text = "Give credit",
+                            fontSize = 11.5.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -936,22 +932,20 @@ fun DueActionCards(
             }
         }
 
-        // Record Payment Card (Received Money - Retro Tactile Button)
-        Card(
+        // Record Payment Card (Received Money - Frosted Glass Button)
+        GlassCard(
             modifier = Modifier
                 .weight(1f)
-                .height(82.dp)
-                .clickable { onRecordPaymentClick() }
+                .height(86.dp)
                 .testTag(recordPaymentTestTag),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(containerColor = surfaceColor),
-            border = BorderStroke(1.5.dp, borderColor),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            onClick = { onRecordPaymentClick() },
+            shape = RoundedCornerShape(20.dp),
+            elevation = 4.dp
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 12.dp),
+                    .padding(horizontal = 14.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -962,34 +956,33 @@ fun DueActionCards(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(38.dp)
-                            .clip(RoundedCornerShape(6.dp))
+                            .size(42.dp)
+                            .clip(RoundedCornerShape(14.dp))
                             .background(TealSuccess)
-                            .border(1.dp, borderColor, RoundedCornerShape(6.dp)),
+                            .border(1.dp, Color.White.copy(alpha = 0.35f), RoundedCornerShape(14.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = "Record Payment",
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
 
                     Column(verticalArrangement = Arrangement.Center) {
                         Text(
-                            text = "$ PAYMENT",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = "Payment",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp,
-                            lineHeight = 16.sp,
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Received money",
-                            fontSize = 11.sp,
+                            text = "Settle balance",
+                            fontSize = 11.5.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -1019,18 +1012,14 @@ fun TopCustomersRanking(
     val maxDue = topCustomers.maxOfOrNull { it.balance }?.coerceAtLeast(1.0) ?: 1.0
     val borderColor = MaterialTheme.colorScheme.outline
 
-    Card(
+    GlassPanel(
         modifier = modifier
             .fillMaxWidth()
             .testTag("top_customers_card"),
-        shape = RoundedCornerShape(0.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        border = BorderStroke(1.5.dp, borderColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        shape = RoundedCornerShape(24.dp),
+        elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(18.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -1038,25 +1027,37 @@ fun TopCustomersRanking(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(GlassAmber)
+                    )
                     Text(
-                        text = "★ TOP DUE ACCOUNTS",
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                        fontSize = 13.sp,
+                        text = "Top Due Accounts",
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                Text(
-                    text = "[LEADERBOARD]",
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                    fontSize = 9.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.10f))
+                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                ) {
+                    Text(
+                        text = "LEADERBOARD",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             topCustomers.take(4).forEachIndexed { index, item ->
                 val fraction = (item.balance / maxDue).toFloat().coerceIn(0.05f, 1f)
@@ -1064,9 +1065,9 @@ fun TopCustomersRanking(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(12.dp))
                         .clickable { onCustomerClick(item.customer.id) }
-                        .padding(vertical = 5.dp)
+                        .padding(vertical = 6.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -1075,27 +1076,26 @@ fun TopCustomersRanking(
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(22.dp)
-                                    .clip(RoundedCornerShape(4.dp))
+                                    .size(24.dp)
+                                    .clip(RoundedCornerShape(8.dp))
                                     .background(MaterialTheme.colorScheme.primaryContainer)
-                                    .border(1.dp, borderColor, RoundedCornerShape(4.dp)),
+                                    .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), RoundedCornerShape(8.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "#${index + 1}",
-                                    fontSize = 10.sp,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                    text = "${index + 1}",
+                                    fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.primary
                                 )
                             }
                             Text(
                                 text = item.customer.name,
-                                fontSize = 14.sp,
+                                fontSize = 14.5.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -1103,23 +1103,21 @@ fun TopCustomersRanking(
 
                         Text(
                             text = formatCurrency(item.balance),
-                            fontSize = 13.5.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             color = if (item.balance > 0) RoseDue else TealSuccess
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
-                    // Retro progress bar with border
+                    // Glass glowing progress bar
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(6.dp)
                             .clip(RoundedCornerShape(3.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .border(0.5.dp, borderColor.copy(alpha = 0.5f), RoundedCornerShape(3.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                     ) {
                         Box(
                             modifier = Modifier
@@ -1128,7 +1126,7 @@ fun TopCustomersRanking(
                                 .clip(RoundedCornerShape(3.dp))
                                 .background(
                                     Brush.horizontalGradient(
-                                        colors = listOf(MaterialTheme.colorScheme.primary, RoseDue)
+                                        colors = listOf(GlassCyan, GlassRose)
                                     )
                                 )
                         )
@@ -1147,21 +1145,15 @@ fun CustomerCard(
     onPay: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val borderColor = MaterialTheme.colorScheme.outline
-
-    Card(
+    GlassCard(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() }
             .testTag("customer_card_${summary.customer.id}"),
-        shape = RoundedCornerShape(0.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        border = BorderStroke(1.5.dp, borderColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        onClick = onClick,
+        shape = RoundedCornerShape(20.dp),
+        elevation = 3.dp
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -1169,22 +1161,21 @@ fun CustomerCard(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // Retro Square Avatar stamp with initial
+                    // Glass Avatar squircle with glowing gradient border
                     val initial = summary.customer.name.take(1).uppercase()
                     Box(
                         modifier = Modifier
-                            .size(42.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(MaterialTheme.colorScheme.primaryContainer)
-                            .border(1.dp, borderColor, RoundedCornerShape(6.dp)),
+                            .size(44.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
+                            .border(1.2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f), RoundedCornerShape(14.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = initial,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 17.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -1193,7 +1184,7 @@ fun CustomerCard(
                     Column {
                         Text(
                             text = summary.customer.name,
-                            fontSize = 15.sp,
+                            fontSize = 15.5.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 1,
@@ -1201,44 +1192,41 @@ fun CustomerCard(
                         )
                         Text(
                             text = if (summary.customer.phone.isNotBlank()) summary.customer.phone else "No phone",
-                            fontSize = 11.5.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
 
-                // Balance display in retro mono
+                // Balance display in sleek glass pill
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
                         text = formatCurrency(summary.balance),
-                        fontSize = 16.sp,
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                        fontSize = 16.5.sp,
                         fontWeight = FontWeight.Bold,
                         color = if (summary.balance > 0) RoseDue else TealSuccess
                     )
 
-                    Spacer(modifier = Modifier.height(2.dp))
+                    Spacer(modifier = Modifier.height(3.dp))
 
                     val isDue = summary.balance > 0
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(4.dp))
+                            .clip(RoundedCornerShape(8.dp))
                             .background(
-                                if (isDue) RoseDue.copy(alpha = 0.12f)
-                                else TealSuccess.copy(alpha = 0.12f)
+                                if (isDue) RoseDue.copy(alpha = 0.14f)
+                                else TealSuccess.copy(alpha = 0.14f)
                             )
                             .border(
-                                0.8.dp,
-                                if (isDue) RoseDue else TealSuccess,
-                                RoundedCornerShape(4.dp)
+                                1.dp,
+                                if (isDue) RoseDue.copy(alpha = 0.40f) else TealSuccess.copy(alpha = 0.40f),
+                                RoundedCornerShape(8.dp)
                             )
-                            .padding(horizontal = 5.dp, vertical = 2.dp)
+                            .padding(horizontal = 7.dp, vertical = 2.dp)
                     ) {
                         Text(
-                            text = if (isDue) "[DUE]" else "[SETTLED]",
-                            fontSize = 9.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = if (isDue) "DUE" else "SETTLED",
+                            fontSize = 9.5.sp,
                             fontWeight = FontWeight.Bold,
                             color = if (isDue) RoseDue else TealSuccess
                         )

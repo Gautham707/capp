@@ -121,7 +121,7 @@ fun CustomerDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            // RETRO TOP NAV BAR
+            // FROSTED GLASS TOP NAV BAR
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -131,14 +131,14 @@ fun CustomerDetailScreen(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(38.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                            .size(42.dp)
+                            .clip(RoundedCornerShape(14.dp))
                             .background(MaterialTheme.colorScheme.surface)
-                            .border(1.5.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                            .border(com.example.ui.components.glassBorderStroke(1.2.dp), RoundedCornerShape(14.dp))
                             .clickable { viewModel.navigateBack() }
                             .testTag("detail_back_btn"),
                         contentAlignment = Alignment.Center
@@ -147,54 +147,52 @@ fun CustomerDetailScreen(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
                             tint = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(20.dp)
                         )
                     }
 
                     Column {
                         Text(
                             text = summary.customer.name,
-                            fontSize = 17.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            fontSize = 17.5.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.testTag("detail_customer_name")
                         )
                         Text(
-                            text = if (summary.customer.phone.isNotBlank()) "[TEL: ${summary.customer.phone}]" else "[NO PHONE RECORD]",
-                            fontSize = 11.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = if (summary.customer.phone.isNotBlank()) summary.customer.phone else "No phone on record",
+                            fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.testTag("detail_customer_phone")
                         )
                     }
                 }
 
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Box(
                         modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(6.dp))
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(14.dp))
                             .background(MaterialTheme.colorScheme.surface)
-                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(6.dp))
+                            .border(com.example.ui.components.glassBorderStroke(1.2.dp), RoundedCornerShape(14.dp))
                             .clickable { showEditCustomerDialog = true }
                             .testTag("detail_edit_customer_btn"),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit Customer", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(17.dp))
+                        Icon(Icons.Default.Edit, contentDescription = "Edit Customer", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
                     }
 
                     Box(
                         modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(6.dp))
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(14.dp))
                             .background(MaterialTheme.colorScheme.surface)
-                            .border(1.dp, RoseDue, RoundedCornerShape(6.dp))
+                            .border(1.dp, RoseDue.copy(alpha = 0.5f), RoundedCornerShape(14.dp))
                             .clickable { showDeleteCustomerDialog = true }
                             .testTag("detail_delete_customer_btn"),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete Customer", tint = RoseDue, modifier = Modifier.size(17.dp))
+                        Icon(Icons.Default.Delete, contentDescription = "Delete Customer", tint = RoseDue, modifier = Modifier.size(18.dp))
                     }
                 }
             }
@@ -223,16 +221,15 @@ fun CustomerDetailScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "TRANSACTION HISTORY",
-                    fontSize = 14.sp,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                    text = "Transaction History",
+                    fontSize = 15.5.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "[${transactions.size} ENTRIES]",
-                    fontSize = 11.sp,
-                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                    text = "${transactions.size} records",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -242,22 +239,29 @@ fun CustomerDetailScreen(
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(22.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surface
                     ),
-                    border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline)
+                    border = com.example.ui.components.glassBorderStroke(1.2.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(24.dp),
+                            .padding(28.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "[NO TRANSACTIONS RECORDED]",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = "No Transactions Recorded",
                             fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Log credit or payment using the buttons above",
+                            fontSize = 12.5.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -266,48 +270,43 @@ fun CustomerDetailScreen(
         } else {
             items(transactions, key = { it.id }) { tx ->
                 val isCredit = tx.type == "credit"
-                Card(
+                com.example.ui.components.GlassCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag("transaction_item_${tx.id}"),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    elevation = 3.dp
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp),
+                            .padding(14.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(RoundedCornerShape(6.dp))
+                                    .size(40.dp)
+                                    .clip(RoundedCornerShape(12.dp))
                                     .background(
                                         if (isCredit) RoseDue.copy(alpha = 0.15f)
                                         else TealSuccess.copy(alpha = 0.15f)
                                     )
                                     .border(
                                         1.dp,
-                                        if (isCredit) RoseDue else TealSuccess,
-                                        RoundedCornerShape(6.dp)
+                                        if (isCredit) RoseDue.copy(alpha = 0.45f) else TealSuccess.copy(alpha = 0.45f),
+                                        RoundedCornerShape(12.dp)
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     text = if (isCredit) "+D" else "+P",
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 11.sp,
+                                    fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = if (isCredit) RoseDue else TealSuccess
                                 )
@@ -315,16 +314,14 @@ fun CustomerDetailScreen(
 
                             Column {
                                 Text(
-                                    text = if (isCredit) "DUE ADDED" else "PAYMENT RECEIVED",
+                                    text = if (isCredit) "Due Added" else "Payment Received",
                                     fontWeight = FontWeight.Bold,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontSize = 13.sp,
+                                    fontSize = 14.sp,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
                                     text = formatTime(tx.timestamp),
-                                    fontSize = 10.5.sp,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                    fontSize = 11.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
@@ -336,8 +333,7 @@ fun CustomerDetailScreen(
                         ) {
                             Text(
                                 text = "${if (isCredit) "+" else "-"}${formatCurrency(tx.amount)}",
-                                fontSize = 15.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                fontSize = 15.5.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = if (isCredit) RoseDue else TealSuccess
                             )

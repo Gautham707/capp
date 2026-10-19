@@ -122,44 +122,46 @@ fun MyDueApp(viewModel: MyDueViewModel) {
 
     val showBottomNav = currentScreen !is Screen.Auth && currentScreen !is Screen.Detail
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            AnimatedVisibility(
-                visible = showBottomNav,
-                enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
-                exit = slideOutVertically(targetOffsetY = { it }) + fadeOut()
-            ) {
-                FloatingBottomNav(
-                    currentScreen = currentScreen,
-                    onNavigate = { screen -> viewModel.navigateTo(screen) }
-                )
-            }
-        }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            AnimatedContent(
-                targetState = currentScreen,
-                transitionSpec = {
-                    (fadeIn(animationSpec = tween(220)) + scaleIn(initialScale = 0.98f, animationSpec = tween(220)))
-                        .togetherWith(fadeOut(animationSpec = tween(180)) + scaleOut(targetScale = 0.98f, animationSpec = tween(180)))
-                },
-                label = "screen_transition"
-            ) { targetScreen ->
-                when (targetScreen) {
-                    is Screen.Auth -> AuthScreen(viewModel = viewModel)
-                    is Screen.Home -> HomeScreen(viewModel = viewModel)
-                    is Screen.Credit -> CreditLedgerScreen(viewModel = viewModel)
-                    is Screen.Profile -> ProfileScreen(viewModel = viewModel)
-                    is Screen.Detail -> CustomerDetailScreen(
-                        customerId = targetScreen.customerId,
-                        viewModel = viewModel
+    com.example.ui.components.GlassMorphicBackground(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = Color.Transparent,
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = showBottomNav,
+                    enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
+                    exit = slideOutVertically(targetOffsetY = { it }) + fadeOut()
+                ) {
+                    FloatingBottomNav(
+                        currentScreen = currentScreen,
+                        onNavigate = { screen -> viewModel.navigateTo(screen) }
                     )
+                }
+            }
+        ) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                AnimatedContent(
+                    targetState = currentScreen,
+                    transitionSpec = {
+                        (fadeIn(animationSpec = tween(220)) + scaleIn(initialScale = 0.98f, animationSpec = tween(220)))
+                            .togetherWith(fadeOut(animationSpec = tween(180)) + scaleOut(targetScale = 0.98f, animationSpec = tween(180)))
+                    },
+                    label = "screen_transition"
+                ) { targetScreen ->
+                    when (targetScreen) {
+                        is Screen.Auth -> AuthScreen(viewModel = viewModel)
+                        is Screen.Home -> HomeScreen(viewModel = viewModel)
+                        is Screen.Credit -> CreditLedgerScreen(viewModel = viewModel)
+                        is Screen.Profile -> ProfileScreen(viewModel = viewModel)
+                        is Screen.Detail -> CustomerDetailScreen(
+                            customerId = targetScreen.customerId,
+                            viewModel = viewModel
+                        )
+                    }
                 }
             }
         }
@@ -172,25 +174,30 @@ fun FloatingBottomNav(
     onNavigate: (Screen) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isDark = isSystemInDarkTheme()
-    val borderColor = MaterialTheme.colorScheme.outline
+    val isDark = com.example.ui.theme.isAppInDarkTheme()
+    val glassBorder = com.example.ui.components.glassBorderStroke(1.2.dp)
+    val navShape = RoundedCornerShape(32.dp)
+    val shadowSpot = if (isDark) Color(0xFF6366F1).copy(alpha = 0.28f) else Color(0xFF6366F1).copy(alpha = 0.12f)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+            .padding(horizontal = 24.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
-        Card(
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
-            border = BorderStroke(1.5.dp, borderColor),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .shadow(
+                    elevation = 10.dp,
+                    shape = navShape,
+                    spotColor = shadowSpot,
+                    ambientColor = Color.Black.copy(alpha = 0.04f)
+                )
+                .clip(navShape)
+                .background(com.example.ui.components.glassSurfaceBrush())
+                .border(glassBorder.width, glassBorder.brush, navShape)
                 .testTag("floating_nav_bar")
         ) {
             Row(
@@ -202,7 +209,7 @@ fun FloatingBottomNav(
             ) {
                 NavTabItem(
                     icon = Icons.Default.Home,
-                    label = "HOME",
+                    label = "Home",
                     isSelected = currentScreen is Screen.Home,
                     testTag = "nav_home",
                     modifier = Modifier.weight(1f),
@@ -211,7 +218,7 @@ fun FloatingBottomNav(
 
                 NavTabItem(
                     icon = Icons.Default.AccountBalanceWallet,
-                    label = "CREDIT",
+                    label = "Credit",
                     isSelected = currentScreen is Screen.Credit,
                     testTag = "nav_credit",
                     modifier = Modifier.weight(1f),
@@ -220,7 +227,7 @@ fun FloatingBottomNav(
 
                 NavTabItem(
                     icon = Icons.Default.Person,
-                    label = "PROFILE",
+                    label = "Profile",
                     isSelected = currentScreen is Screen.Profile,
                     testTag = "nav_profile",
                     modifier = Modifier.weight(1f),
@@ -240,21 +247,28 @@ fun NavTabItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val isDark = com.example.ui.theme.isAppInDarkTheme()
     val activeColor = MaterialTheme.colorScheme.primary
     val inactiveColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val activeBg = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent
-    val activeBorder = if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.outline) else null
+    val activeBg = if (isSelected) {
+        if (isDark) MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
+        else MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+    } else Color.Transparent
+
+    val activeBorder = if (isSelected) {
+        BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f))
+    } else null
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(22.dp))
             .then(
-                if (activeBorder != null) Modifier.border(activeBorder.width, activeBorder.brush, RoundedCornerShape(10.dp))
+                if (activeBorder != null) Modifier.border(activeBorder.width, activeBorder.brush, RoundedCornerShape(22.dp))
                 else Modifier
             )
             .background(activeBg)
             .clickable { onClick() }
-            .padding(vertical = 6.dp, horizontal = 4.dp)
+            .padding(vertical = 8.dp, horizontal = 12.dp)
             .testTag(testTag),
         contentAlignment = Alignment.Center
     ) {
@@ -270,10 +284,9 @@ fun NavTabItem(
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = if (isSelected) "[$label]" else label,
-                fontSize = 10.sp,
-                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                text = label,
+                fontSize = 11.sp,
+                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                 color = if (isSelected) activeColor else inactiveColor
             )
         }

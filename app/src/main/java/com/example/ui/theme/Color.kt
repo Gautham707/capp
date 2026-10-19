@@ -2,50 +2,73 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Swiss Design Style Palette (International Typographic Style: High contrast, stark minimalism, bold Swiss Red, deep black, crisp white, structural grays)
-val SwissBackgroundLight = Color(0xFFFCFCFC)       // Pure clean off-white
-val SwissSurfaceLight = Color(0xFFFFFFFF)          // Crisp white card surface
-val SwissSurfaceVariantLight = Color(0xFFF1F5F9)   // Structural light gray grid container
-val SwissInkPrimary = Color(0xFF0F172A)            // Deep architectural black/charcoal
-val SwissInkMuted = Color(0xFF64748B)              // Precise muted gray
-val SwissBorderLight = Color(0xFFCBD5E1)           // Clean crisp grid border
-val SwissBorderStrong = Color(0xFF0F172A)          // Bold black structural line
+// Minimalist Theme Color Palette
 
-// Swiss Accent Colors (Iconic Swiss Red & Functional High-Contrast Accents)
-val SwissRed = Color(0xFFE60000)                   // Iconic Swiss Red accent
-val SwissRedDark = Color(0xFFB30000)               // Deep Swiss Red
-val SwissGreen = Color(0xFF10B981)                 // Clean functional green (success)
-val SwissBlue = Color(0xFF2563EB)                  // Clean structural blue
-val SwissAmber = Color(0xFFD97706)                 // Precise amber (pending/warning)
+// Solid Flat Colors
+val White = Color(0xFFFFFFFF)
+val Black = Color(0xFF000000)
+val SurfaceGray = Color(0xFFF8F9FA)
+val SurfaceDarkBase = Color(0xFF1E1E1E)
+val BorderGray = Color(0xFFDEE2E6)
+val BorderDarkBase = Color(0xFF343A40)
+val TextDark = Color(0xFF121212)
+val TextLight = Color(0xFFFFFFFF)
+val TextMuted = Color(0xFF6C757D)
+val TextMutedDarkBase = Color(0xFFADB5BD)
 
-// Swiss Dark Theme (Stark high-contrast modernist dark mode)
-val SwissBackgroundDark = Color(0xFF0A0A0A)        // Deep modernist black
-val SwissSurfaceDark = Color(0xFF141414)           // Dark architectural surface
-val SwissSurfaceVariantDark = Color(0xFF1F2937)    // Dark structured container
-val SwissTextPrimaryDark = Color(0xFFF8FAFC)       // Crisp white text
-val SwissTextMutedDark = Color(0xFF94A3B8)         // Muted light gray
-val SwissBorderDark = Color(0xFF334155)            // Precise dark grid border
+// Accent Colors
+val Violet = Color(0xFF6200EE)
+val Cyan = Color(0xFF03DAC6)
+val Emerald = Color(0xFF00C853)
+val Rose = Color(0xFFD32F2F)
+val Amber = Color(0xFFFFB300)
 
-// Backwards-compatible aliases for existing references
-val BluePrimary = SwissRed
-val BluePrimaryLight = SwissRedDark
-val BlueAccent = SwissBlue
-val TealSuccess = SwissGreen
-val TealSuccessLight = Color(0xFF34D399)
-val RoseDue = SwissRed
-val RoseDueLight = Color(0xFFFF6B6B)
-val AmberPending = SwissAmber
+// Theme Constants
+val BackgroundLight = White
+val SurfaceLight = SurfaceGray
+val SurfaceVariantLight = BorderGray
+val TextPrimaryLight = TextDark
+val TextMutedLight = TextMuted
+val BorderLight = BorderGray
 
-val BackgroundLight = SwissBackgroundLight
-val SurfaceLight = SwissSurfaceLight
-val SurfaceVariantLight = SwissSurfaceVariantLight
-val TextPrimaryLight = SwissInkPrimary
-val TextMutedLight = SwissInkMuted
-val BorderLight = SwissBorderLight
+val BackgroundDark = Black
+val SurfaceDark = SurfaceDarkBase
+val SurfaceVariantDark = BorderDarkBase
+val TextPrimaryDark = TextLight
+val TextMutedDark = TextMutedDarkBase
+val BorderDark = BorderDarkBase
 
-val BackgroundDark = SwissBackgroundDark
-val SurfaceDark = SwissSurfaceDark
-val SurfaceVariantDark = SwissSurfaceVariantDark
-val TextPrimaryDark = SwissTextPrimaryDark
-val TextMutedDark = SwissTextMutedDark
-val BorderDark = SwissBorderDark
+val BluePrimary = Violet
+val BluePrimaryLight = Violet
+val BlueAccent = Cyan
+val TealSuccess = Emerald
+val TealSuccessLight = Emerald
+val RoseDue = Rose
+val RoseDueLight = Rose
+val AmberPending = Amber
+
+// Compatibility aliases
+val GlassBgLight = BackgroundLight
+val GlassSurfaceLight = SurfaceLight
+val GlassSurfaceVariantLight = SurfaceVariantLight
+val GlassTextPrimaryLight = TextPrimaryLight
+val GlassTextMutedLight = TextMutedLight
+val GlassBorderLight = BorderLight
+
+val GlassBgDark = BackgroundDark
+val GlassSurfaceDark = SurfaceDark
+val GlassSurfaceVariantDark = SurfaceVariantDark
+val GlassTextPrimaryDark = TextPrimaryDark
+val GlassTextMutedDark = TextMutedDark
+val GlassBorderDark = BorderDark
+
+val GlassViolet = Violet
+val GlassVioletLight = Violet
+val GlassCyan = Cyan
+val GlassCyanLight = Cyan
+val GlassEmerald = Emerald
+val GlassEmeraldLight = Emerald
+val GlassRose = Rose
+val GlassRoseLight = Rose
+val GlassAmber = Amber
+val GlassAmberLight = Amber

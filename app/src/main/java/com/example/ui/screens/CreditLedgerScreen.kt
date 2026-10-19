@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -47,6 +48,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.data.CustomerWithSummary
 import com.example.ui.components.AddDueDialog
 import com.example.ui.components.CustomerCard
+import com.example.ui.components.GlassPanel
 import com.example.ui.components.RecordPaymentDialog
 import com.example.ui.components.formatCurrency
 import com.example.ui.theme.BluePrimary
@@ -83,7 +85,7 @@ fun CreditLedgerScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            // RETRO LEDGER HEADER
+            // GLASS LEDGER HEADER
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -93,14 +95,14 @@ fun CreditLedgerScreen(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(42.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(MaterialTheme.colorScheme.primaryContainer)
-                            .border(1.5.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(6.dp)),
+                            .size(46.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
+                            .border(1.2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f), RoundedCornerShape(16.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
@@ -113,16 +115,14 @@ fun CreditLedgerScreen(
 
                     Column {
                         Text(
-                            text = "CREDIT LEDGER",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 17.sp,
+                            text = "Credit Ledger",
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "// MASTER ACCOUNT FILE //",
-                            fontSize = 10.5.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = "Customer accounts & balances",
+                            fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -133,93 +133,98 @@ fun CreditLedgerScreen(
                         selectedForCredit = ""
                         showAddDueDialog = true
                     },
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(20.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
                     modifier = Modifier.testTag("ledger_add_due_btn")
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(15.dp))
+                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "+ DUE",
-                        fontSize = 12.sp,
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                        text = "Add Due",
+                        fontSize = 12.5.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
             }
         }
 
-        // DUAL METRIC STATS - RETRO TACTILE CARDS
+        // DUAL METRIC STATS - FROSTED GLASS CARDS
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 // Total Due Card
-                Card(
+                com.example.ui.components.GlassCard(
                     modifier = Modifier
                         .weight(1f)
-                        .clickable { viewModel.setLedgerFilter("due") }
                         .testTag("ledger_stat_due"),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    onClick = { viewModel.setLedgerFilter("due") },
+                    shape = RoundedCornerShape(22.dp),
+                    elevation = 4.dp
                 ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Text(
-                            text = "[TOTAL DUE]",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = RoseDue
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(RoseDue.copy(alpha = 0.12f))
+                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                        ) {
+                            Text(
+                                text = "TOTAL DUE",
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = RoseDue
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
                         Text(
                             text = formatCurrency(totalOutstanding),
                             fontSize = 20.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
                             fontWeight = FontWeight.Bold,
                             color = RoseDue
                         )
                         Text(
                             text = "$pendingCount accounts",
-                            fontSize = 11.sp,
+                            fontSize = 11.5.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
 
                 // Total Collected Card
-                Card(
+                com.example.ui.components.GlassCard(
                     modifier = Modifier
                         .weight(1f)
-                        .clickable { viewModel.setLedgerFilter("settled") }
                         .testTag("ledger_stat_collected"),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    onClick = { viewModel.setLedgerFilter("settled") },
+                    shape = RoundedCornerShape(22.dp),
+                    elevation = 4.dp
                 ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Text(
-                            text = "[COLLECTED]",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TealSuccess
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(TealSuccess.copy(alpha = 0.12f))
+                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                        ) {
+                            Text(
+                                text = "COLLECTED",
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = TealSuccess
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
                         Text(
                             text = formatCurrency(totalCollected),
                             fontSize = 20.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
                             fontWeight = FontWeight.Bold,
                             color = TealSuccess
                         )
                         Text(
                             text = "$settledCount settled",
-                            fontSize = 11.sp,
+                            fontSize = 11.5.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -227,13 +232,13 @@ fun CreditLedgerScreen(
             }
         }
 
-        // FILTER PILLS (All, Pending, Today, Settled) - RETRO BRACKET CHIPS
+        // FILTER PILLS (All, Pending, Today, Settled) - FROSTED GLASS CAPSULES
         item {
             val filters = listOf(
-                "all" to "ALL: ${allSummaries.size}",
-                "due" to "PENDING: $pendingCount",
-                "today" to "TODAY",
-                "settled" to "SETTLED: $settledCount"
+                "all" to "All (${allSummaries.size})",
+                "due" to "Pending ($pendingCount)",
+                "today" to "Today",
+                "settled" to "Settled ($settledCount)"
             )
 
             Row(
@@ -246,26 +251,27 @@ fun CreditLedgerScreen(
                     val isSelected = activeFilter == key
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(6.dp))
+                            .clip(RoundedCornerShape(20.dp))
                             .background(
-                                if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
+                                if (isSelected) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.surface
                             )
                             .border(
                                 1.dp,
-                                if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                                RoundedCornerShape(6.dp)
+                                if (isSelected) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.outline,
+                                RoundedCornerShape(20.dp)
                             )
                             .clickable { viewModel.setLedgerFilter(key) }
-                            .padding(horizontal = 10.dp, vertical = 6.dp)
+                            .padding(horizontal = 12.dp, vertical = 7.dp)
                             .testTag("chip_$key"),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "[$label]",
-                            fontSize = 10.5.sp,
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = label,
+                            fontSize = 11.5.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -275,9 +281,8 @@ fun CreditLedgerScreen(
         // CUSTOMER ACCOUNTS SECTION
         item {
             Text(
-                text = "CUSTOMER ACCOUNTS",
-                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                fontSize = 15.sp,
+                text = "Customer Accounts",
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -285,24 +290,27 @@ fun CreditLedgerScreen(
 
         if (filteredCustomers.isEmpty()) {
             item {
-                Card(
+                GlassPanel(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline)
+                    shape = RoundedCornerShape(22.dp),
+                    elevation = 4.dp
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(24.dp),
+                            .padding(28.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "[NO ACCOUNTS IN '$activeFilter']",
-                            fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                            text = "No Accounts Found",
                             fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "No records matching filter '${activeFilter.replaceFirstChar { it.uppercase() }}'",
+                            fontSize = 12.5.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }

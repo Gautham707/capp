@@ -101,7 +101,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                // USER PROFILE HEADER - RETRO OPERATOR BADGE
+                // USER PROFILE HEADER - FROSTED GLASS BADGE
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -111,24 +111,24 @@ fun HomeScreen(
                 ) {
                     Row(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
+                            .clip(RoundedCornerShape(18.dp))
                             .clickable { viewModel.navigateTo(Screen.Profile) }
-                            .padding(2.dp),
+                            .padding(4.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        // User Avatar Retro Stamp
+                        // User Avatar Glass Squircle
                         Box(
                             modifier = Modifier
-                                .size(44.dp)
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(MaterialTheme.colorScheme.primaryContainer),
+                                .size(46.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
+                                .border(1.2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f), RoundedCornerShape(16.dp)),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = userProfile.name.take(2).uppercase(),
-                                fontSize = 16.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -141,35 +141,33 @@ fun HomeScreen(
                             ) {
                                 Text(
                                     text = userProfile.name,
-                                    fontSize = 17.sp,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                    fontSize = 17.5.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.testTag("home_owner_name")
                                 )
-                                Text(
-                                    text = "● ON",
-                                    fontSize = 9.sp,
-                                    fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                    fontWeight = FontWeight.Bold,
-                                    color = TealSuccess
+                                Box(
+                                    modifier = Modifier
+                                        .size(7.dp)
+                                        .clip(CircleShape)
+                                        .background(TealSuccess)
                                 )
                             }
                             Text(
-                                text = "[OPERATOR] • ${userProfile.title}",
-                                fontSize = 11.sp,
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                text = userProfile.title,
+                                fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
 
-                    // Notification Bell Button - Retro Bordered Box
+                    // Notification Bell Button - Frosted Glass Box
                     Box(
                         modifier = Modifier
-                            .size(42.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                            .size(46.dp)
+                            .clip(RoundedCornerShape(16.dp))
                             .background(MaterialTheme.colorScheme.surface)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(16.dp))
                             .clickable { showNotificationsDialog = true }
                             .testTag("notification_button"),
                         contentAlignment = Alignment.Center
@@ -178,14 +176,14 @@ fun HomeScreen(
                             imageVector = Icons.Default.Notifications,
                             contentDescription = "Notifications",
                             tint = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(22.dp)
                         )
-                        // Red badge dot
+                        // Radiant rose badge dot
                         Box(
                             modifier = Modifier
-                                .size(7.dp)
+                                .size(8.dp)
                                 .align(Alignment.TopEnd)
-                                .padding(end = 8.dp, top = 8.dp)
+                                .padding(end = 9.dp, top = 9.dp)
                                 .clip(CircleShape)
                                 .background(RoseDue)
                         )
@@ -204,21 +202,20 @@ fun HomeScreen(
                 )
             }
 
-            // SEARCH BAR & SORT FILTER - RETRO TERMINAL PROMPT
+            // SEARCH BAR & SORT FILTER - FROSTED GLASS CAPSULE
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     OutlinedTextField(
                         value = searchQuery,
                         onValueChange = { viewModel.setSearchQuery(it) },
                         placeholder = {
                             Text(
-                                text = "> Search accounts...",
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
-                                fontSize = 13.sp
+                                text = "Search accounts or phone...",
+                                fontSize = 13.5.sp
                             )
                         },
                         leadingIcon = {
@@ -231,7 +228,7 @@ fun HomeScreen(
                                 }
                             }
                         },
-                        shape = RoundedCornerShape(10.dp),
+                        shape = RoundedCornerShape(22.dp),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             unfocusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -247,9 +244,9 @@ fun HomeScreen(
                     Box(
                         modifier = Modifier
                             .size(52.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                            .clip(RoundedCornerShape(18.dp))
                             .background(MaterialTheme.colorScheme.surface)
-                            .border(1.5.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(10.dp))
+                            .border(1.2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(18.dp))
                             .clickable { showSortDialog = true }
                             .testTag("filter_tune_btn"),
                         contentAlignment = Alignment.Center
@@ -271,9 +268,8 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "RECENT ACCOUNTS",
-                        fontSize = 15.sp,
-                        fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                        text = "Recent Accounts",
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -287,11 +283,10 @@ fun HomeScreen(
                             modifier = Modifier.testTag("view_all_customers_btn")
                         ) {
                             Text(
-                                text = "[ALL: ${allSummaries.size}]",
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                text = "View All (${allSummaries.size})",
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 12.sp
+                                fontSize = 12.5.sp
                             )
                         }
                     }
@@ -303,28 +298,29 @@ fun HomeScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(22.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surface
                         ),
-                        border = androidx.compose.foundation.BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline)
+                        border = com.example.ui.components.glassBorderStroke(1.2.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                     ) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(24.dp),
+                                .padding(28.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "[NO MATCHING RECORDS]",
-                                fontFamily = com.example.ui.theme.SpaceMonoFontFamily,
+                                text = "No Matching Accounts",
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                fontSize = 15.sp,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = "Use '+ Add Due' to log a new customer ledger entry",
-                                fontSize = 12.sp,
+                                fontSize = 12.5.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -356,20 +352,20 @@ fun HomeScreen(
             }
         }
 
-        // RETRO TACTILE FAB
+        // FROSTED GLASS ACCENT FAB
         FloatingActionButton(
             onClick = {
                 selectedForCredit = ""
                 showAddDueDialog = true
             },
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(20.dp),
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 4.dp),
+            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 12.dp, end = 16.dp)
-                .border(1.5.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+                .padding(bottom = 16.dp, end = 20.dp)
+                .border(com.example.ui.components.glassBorderStroke(1.2.dp), RoundedCornerShape(20.dp))
                 .testTag("home_fab_add_due")
         ) {
             Icon(
